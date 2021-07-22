@@ -1,0 +1,141 @@
+SET @VAR1 = 1;
+SET @VAR2 = 'A';
+SET @VAR3 = 3.14;
+SET @VAR4 = '입사일: ';
+SET @VAR5 = 'F';
+SET @VAR6 = '12';
+
+SELECT @VAR1 AS 값;
+SELECT @VAR1 + @VAR3;
+
+USE EMPLOYEES;
+SELECT * FROM EMPLOYEES;
+SELECT @VAR4, hire_date FROM employees; 
+
+PREPARE MYQUERY FROM 'SELECT * FROM EMPLOYEES LIMIT ?';    
+EXECUTE MYQUERY USING @VAR1;
+
+SELECT CAST(@VAR3 AS SIGNED INTEGER);
+SELECT CONVERT(@VAR3, SIGNED INTEGER);
+
+SELECT CAST('2021#07#20' AS DATE);
+SELECT NOW();
+
+SELECT @VAR1 + @VAR6 + @VAR3;
+SELECT '100' + '200';
+SELECT '100' + 200;
+SELECT 100 + '200';
+
+SELECT CONCAT('100', '200');
+-- CONCAT()에 숫자를 넣으면 문자열이라도 홑따옴표를 입력하지 않아도 됨
+SELECT CONCAT(100, 200);
+SELECT 1 > '4MEGA';
+SELECT 6 > '4MEGA';
+-- 문자열을 논리식에 적용하면 0으로 변환
+SELECT -1 > 'MEGA';
+SELECT 1 > 'MEGE';
+
+SELECT IF(6 > '4MEGA', 'THIS IS TRUE', 'THIS IS FALSE') AS 'RESULT IS...';
+SELECT IF(-1 > 'MEGA', 'THIS IS TRUE', 'THIS IS FALSE');
+
+-- IFNULL(수식1, 수식2)은 반환되는 값이 수식1 기준으로 수식1이 NULL 인지 아닌지
+SELECT IFNULL(NULL, 'THIS IS NOT NULL'), IFNULL('THIS IS VALUE', NULL), IFNULL(NULL, NULL);
+SELECT NULLIF('THIS IS NULL', 'THIS IS NULL'), NULLIF('THIS IS NOT NULL', 'THIS IS NULL');
+-- SELECT 구문에서 CASE를 종료할 때에는 'END CASE'가 아닌 'END' 만 작성
+SELECT CASE 10
+	WHEN 1 THEN 'ONE'
+    WHEN 2 THEN 'TWO'
+    WHEN 3 THEN 'THREE'
+    ELSE 'NULL'
+END AS 'GUESS WHAT';
+
+-- 이거 뭔지 모르겠음
+SELECT ASCII('AB');			-- 65
+SELECT ASCII('A' + 'B');	-- 48
+SELECT CHAR(65), CHAR(97);
+
+SELECT CHAR_LENGTH('ABCDEFG'), CHAR_LENGTH('123456789'), CHAR_LENGTH('@@@@@@@@@@');
+SELECT CONCAT('THIS', ' ', 'IS', ' ', 'MYSQL');
+SELECT CONCAT('THIS', SPACE(1), 'IS', SPACE(1), 'MYSQL');
+SELECT CONCAT_WS(' ', 'THIS', 'IS', 'MYSQL');
+SELECT FORMAT(123.456789, 2), FORMAT(987654.321, 2);
+-- 해당 위치부터 삭제
+SELECT INSERT('@&@&@&@&@&', 5, 2, '####');
+-- 해당 위치에 해당 개수만큼 남김
+SELECT LEFT('ABCDEFG', 3), RIGHT('ABCDEFG', 2);
+SELECT UPPER('AAAaaa'), LOWER('BBBbbb'), UCASE('aaaAAA'), LCASE('bbbBBB');
+SELECT LPAD('THIS', 10, '12345'), RPAD('THAT', 10, '1234');
+SELECT LTRIM('            AH           '), RTRIM('            AH           '), TRIM('            AH           ');
+-- 대소문자가 구분됨
+SELECT TRIM(BOTH 'W' FROM 'WWWWWWWWWWTHIS IS MY SQLWWWWWWWWWWWW'), TRIM(LEADING 'W' FROM 'WWWWWWWWWWTHIS IS MY SQLWWWWWWWWWWWW'), TRIM(TRAILING UPPER('w') FROM 'WWWWWWWWWWTHIS IS MY SQLWWWWWWWWWWWW');
+-- SELECT REPEAT('Q', 10);
+SELECT REPLACE('WHO AM I', 'AM I', 'ARE YOU');
+SELECT REVERSE('TOMATO');
+SELECT SUBSTRING('WWI WANNA GO BACK HOMEWW', 3, 20);
+SELECT SUBSTRING('WWI WANNA GET THE JOB@@@@', 3, 19);
+
+DELIMITER $$
+CREATE PROCEDURE threeTimes()
+	BEGIN
+		DECLARE num INT;
+        DECLARE sum INT;
+        
+        SET num = 0;
+        SET sum = 0;
+        
+        WHILE (num < 34) DO
+			SET sum = sum + (num * 3);
+            SET num = num + 1;
+		END WHILE;
+        
+        SELECT sum;
+	END $$
+DELIMITER ;
+
+CALL threeTimes();
+
+-- IF ~ ELSEIF에서 마지막 조건에도 조건을 작성하려면 ELSE가 아닌 ELSEIF를 작성해야함
+DELIMITER $$
+CREATE PROCEDURE gotScore()
+	BEGIN
+		DECLARE point INT;
+        DECLARE ranking VARCHAR(1);
+        
+        SET point = 77;
+        IF (point >= 90) THEN
+			SET ranking = 'A';
+		ELSEIF (point >= 80) THEN
+			SET ranking = 'B';
+		ELSEIF (point >= 70) THEN
+			SET ranking = 'C';
+		ELSEIF (point >= 60) THEN
+			SET ranking = 'D';
+		ELSEIF (point < 60) THEN
+			SET ranking = 'F';
+		END IF;
+        SELECT CONCAT('취득점수: ', point, ' 학점: ', ranking);
+	END $$
+DELIMITER ;
+
+CALL gotScore();
+
+CREATE TABLE wbTbl(
+	name VARCHAR(10) PRIMARY KEY,
+    age INT
+);
+ALTER TABLE wbTbl ADD job VARCHAR(10) NOT NULL;
+ALTER TABLE wbTbl ADD id VARCHAR(10) NOT NULL;
+ALTER TABLE wbTbl ADD password VARCHAR(10) NOT NULL;
+ALTER TABLE wbTbl DROP COLUMN id;
+ALTER TABLE wbTbl CHANGE COLUMN password addr VARCHAR(20) NOT NULL;
+ALTER TABLE wbTbl MODIFY addr VARCHAR(20) UNIQUE;
+
+
+
+
+
+
+
+
+
+
