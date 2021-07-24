@@ -109,7 +109,7 @@ SET SQL_SAFE_UPDATES = 1;
 -- 특정 나이대의 userName을 동물로 교체 - WHERE절을 사용해 age를 필터링(워크벤치 safe mode 기능 적용됨)
 UPDATE testTbl2 SET userName = '호랑이' WHERE age = 4;
 
--- 특정 컬럼의 값을 일괄적으로 계산식에 라 결과값을 얻어내 적용할 수 있음, 나이를 2배(워크벤치 safe mode 기능 적용됨)
+-- 특정 컬럼의 값을 일괄적으로 계산식에 따라 결과값을 얻어내 적용할 수 있음, 나이를 2배(워크벤치 safe mode 기능 적용됨)
 UPDATE testTbl2 SET age = age * 2;
 
 /* DELETE FROM 구문은 데이터를 삭제

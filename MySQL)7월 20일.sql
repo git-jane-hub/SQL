@@ -392,7 +392,7 @@ CALL sum3nProc();
 /* <테이블 심화>
 테이블을 생성
 2가지 방법
-1. CREATE TABEL 구문
+1. CREATE TABLE 구문
 2. DATABASE의 Tables 탭 우클릭 - Create Table... 클릭해 생성 */
 
 /* 테이블 데이터 수정: ALTER TABLE 구문

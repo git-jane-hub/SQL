@@ -60,7 +60,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- 파라미터 내부에 내용을 입력되는 내용이 없으면 애러 발생
+-- 파라미터 내부에 내용을 입력되는 내용이 없으면 에러 발생
 CALL singerAge();
 CALL singerAge('바비킴');
 CALL singerAge('이승기');
